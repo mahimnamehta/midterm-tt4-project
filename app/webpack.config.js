@@ -7,8 +7,8 @@ module.exports = {
   entry: {
     global: path.resolve(__dirname, "global.js"),
     index: path.resolve(__dirname, "index.js"),
-    // listProducts: "./list-products.js",
-    // addProducts: "./add-products.js",
+    listProducts: path.resolve(__dirname, "list-products.js"), // ✅ Added
+    // addProducts: path.resolve(__dirname, "add-products.js"),
   },
   output: {
     path: path.resolve(__dirname, "dist"),
@@ -20,15 +20,19 @@ module.exports = {
     rules: [
       {
         test: /\.scss$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader", {
-          loader: "sass-loader",
-          options: {
-            sassOptions: {
-              quietDeps: true,
-              includePaths: [path.resolve(__dirname, "node_modules")],
+        use: [
+          MiniCssExtractPlugin.loader, 
+          "css-loader", 
+          {
+            loader: "sass-loader",
+            options: {
+              sassOptions: {
+                quietDeps: true,
+                includePaths: [path.resolve(__dirname, "node_modules")],
+              },
             },
           },
-        },],
+        ],
       },
       {
         test: /\.js$/,
@@ -36,19 +40,19 @@ module.exports = {
         use: "babel-loader",
       },
       {
-        test: /\.(png|jpg|gif)$/,
-        type: "asset/resource", // Para copiar arquivos de imagem
+        test: /\.(png|jpg|gif)$/i,
+        type: "asset/resource",
         generator: {
-          filename: 'assets/images/[name][hash][ext][query]', // Colocando as imagens dentro de assets/images/
+          filename: "assets/images/[name][hash][ext][query]",
         },
       },
       {
-        test: /\.(woff(2)?|eot|ttf)$/,
-        type: "asset/resource", // Para copiar arquivos de fontes
+        test: /\.(woff(2)?|eot|ttf)$/i,
+        type: "asset/resource",
         generator: {
-          filename: 'assets/fonts/[name][hash][ext][query]', // Colocando as fontes dentro de assets/fonts/
+          filename: "assets/fonts/[name][hash][ext][query]",
         },
-      },      
+      },
     ],
   },
   plugins: [
@@ -60,23 +64,20 @@ module.exports = {
       chunks: ["global", "index"],
       filename: "index.html",
     }),
-    // new HtmlWebpackPlugin({
-    //   template: "./list-products.html",
-    //   chunks: ["listProducts", "global"],
-    //   filename: "list-products.html",
-    // }),
+    new HtmlWebpackPlugin({
+      template: "./list-products.html",
+      chunks: ["listProducts", "global"], // ✅ Added
+      filename: "list-products.html",
+    }),
     // new HtmlWebpackPlugin({
     //   template: "./add-products.html",
-    //   chunks: ["addProducts", "global"],
+    //   chunks: ["addProducts", "global"], // Future addition
     //   filename: "add-products.html",
     // }),
   ],
   optimization: {
     minimize: true,
-    minimizer: [
-      `...`,
-      new CssMinimizerPlugin(),
-    ],
+    minimizer: [`...`, new CssMinimizerPlugin()],
   },
   devServer: {
     static: "./dist",
