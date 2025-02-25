@@ -43,6 +43,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const cardBody = document.createElement('div');
         cardBody.classList.add('card-body');
 
+        addToCart.addEventListener("click", () => window.location.href = "add-products.html" );
+        
         const title = document.createElement('h4');
         title.classList.add('card-title');
         title.textContent = product.name;
@@ -55,6 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
         addToCart.classList.add('btn');
         addToCart.classList.add('btn-success');
         addToCart.classList.add('float-end');
+        addToCart.classList.add('addToCarBtn')
         addToCart.textContent = "Add to cart";
 
         cardBody.appendChild(title);
